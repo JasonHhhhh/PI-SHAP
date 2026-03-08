@@ -1,0 +1,45 @@
+{
+  "model_folder": "data/model_mine",
+  "units_standard": 1,
+  "do_compressibility": 1,
+  "time_horizon_hr": 24,
+  "boundary_points": 101,
+  "boundary_dt_hr": 0.24000000000000021,
+  "transient_optintervals": 24,
+  "transient_Nvec": [
+    4,
+    8,
+    23
+  ],
+  "lmax_km": 10,
+  "ss_reference_source": "shap_src_min/ss/par_ss_opt_synced.mat::par_ss_old",
+  "ss_start_cc": [
+    1.5999999697515652,
+    1.1247993628753441,
+    1.0706502470467185,
+    1.0000000060405019,
+    0.999999997687112
+  ],
+  "ss_terminal_cc": [
+    1.5999999152599229,
+    1.210485434341769,
+    1.188043001002806,
+    1.173007904207781,
+    1.0000000679536425
+  ],
+  "node_count": 11,
+  "edge_count": 10,
+  "pipe_count": 5,
+  "compressor_count": 5,
+  "gnode_count": 1,
+  "gnode_phys_nodes": 7,
+  "qbar_active_nodes": 7,
+  "qbar_total_min": 1059.440002,
+  "qbar_total_max": 1341.957335,
+  "pslack_const_min": 913.7377866,
+  "pslack_const_max": 913.7377866,
+  "pslack_dy_min": 817.8191356,
+  "pslack_dy_max": 1058.041109,
+  "cslack_min": 1.25,
+  "cslack_max": 1.25
+}

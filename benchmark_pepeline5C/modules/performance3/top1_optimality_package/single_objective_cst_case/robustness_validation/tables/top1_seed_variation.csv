@@ -1,0 +1,7 @@
+RunID,Group,GroupValue,Method,N,GlobalBestJcost,Top1Jcost,Top1RegretPct
+seed_train23_test11_37_dt1p0,seed_variation,seed_split_A,Cond-SHAP,1489,116192556082.271,235967385038.438,103.08304851419186
+seed_train23_test11_37_dt1p0,seed_variation,seed_split_A,Ori-SHAP,1489,116192556082.271,305765651526.416,163.15425173185486
+seed_train23_test11_37_dt1p0,seed_variation,seed_split_A,PI-SHAP,1489,116192556082.271,305699531381.704,163.0973460685822
+seed_train37_test11_23_dt1p0,seed_variation,seed_split_B,Cond-SHAP,1497,116192556082.271,263927854022.744,127.14695581347564
+seed_train37_test11_23_dt1p0,seed_variation,seed_split_B,Ori-SHAP,1497,116192556082.271,497993271311.703,328.5930941729995
+seed_train37_test11_23_dt1p0,seed_variation,seed_split_B,PI-SHAP,1497,116192556082.271,313516929794.323,169.82531443093052

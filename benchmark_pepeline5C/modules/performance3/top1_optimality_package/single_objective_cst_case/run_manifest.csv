@@ -1,0 +1,11 @@
+RunID,Group,GroupValue,Note,Rows,DatasetDtHr_unique
+dt0p5_seed11_test23_37,temporal_granularity,dt=0.5h,finer time step,3116,0.5
+dt2p0_seed11_test23_37,temporal_granularity,dt=2.0h,coarser time step,674,2
+k120_seed11_test23_37,train_sample_k,k=120,smaller train subset,1469,1
+k240_seed11_test23_37,train_sample_k,k=240,larger train subset,1469,1
+ncl2_seed11_test23_37,label_count,Ncl=2,fewer labels,1469,1
+ncl4_seed11_test23_37,label_count,Ncl=4,more labels,1469,1
+ncl6_seed11_test23_37,label_count,Ncl=6,finer labels,1469,1
+ncl8_seed11_test23_37,label_count,Ncl=8,finest labels,1469,1
+seed_train23_test11_37_dt1p0,seed_variation,seed_split_A,reference split,1489,1
+seed_train37_test11_23_dt1p0,seed_variation,seed_split_B,swapped train/test seeds,1497,1

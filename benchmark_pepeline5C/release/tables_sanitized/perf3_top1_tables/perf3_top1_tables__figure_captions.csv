@@ -1,0 +1,8 @@
+FigureBaseName,Caption
+Fig1A_action_jcost_S020_baseline,Time-varying TOP-1 control actions for Jcst (S=20 baseline).
+Fig1B_metric_jcost_S020_baseline,Temporal Jcst trajectory and cumulative TOP-1 Jcst comparison on absolute-value axes.
+Fig2A_action_jstg_C1,Time-varying TOP-1 control actions for Jstg using fast rerank settings (top-200 plus objective-aware stage-2).
+Fig2B_metric_jstg_C1,Temporal Jstg trajectory and cumulative TOP-1 Jstg comparison on absolute-value axes.
+Fig3A_action_jvar_C1,Time-varying TOP-1 control actions for Jvar using C1 fast-refine settings.
+Fig3B_metric_jvar_C1,Temporal Jvar trajectory and cumulative TOP-1 Jvar comparison on absolute-value axes.
+Fig4_multi_pareto_S020_baseline,TOP-1 induced Pareto proximity scatter over supply-cost weights under S=20 baseline.

@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "${SCRIPT_DIR}/../.." && pwd)"
+
+if [[ ! -f "${SCRIPT_DIR}/auth.env" ]]; then
+  echo "Missing ${SCRIPT_DIR}/auth.env"
+  echo "Please copy auth.env.template -> auth.env and fill placeholders."
+  exit 1
+fi
+
+# shellcheck disable=SC1091
+source "${SCRIPT_DIR}/auth.env"
+
+mkdir -p "${MATLAB_PREFDIR}"
+
+NCPU="$(python3 - <<'PY'
+import os
+print(os.cpu_count() or 1)
+PY
+)"
+
+NWORKERS="$(python3 - <<PY
+import math
+n=int(${NCPU})
+r=float(${DOE_WORKER_RATIO:-0.90})
+print(max(1, math.floor(n*r)))
+PY
+)"
+
+echo "Project root: ${PROJECT_ROOT}"
+echo "MATLAB_PREFDIR: ${MATLAB_PREFDIR}"
+echo "MLM_LICENSE_FILE: ${MLM_LICENSE_FILE:-<not-set>}"
+echo "CPU cores: ${NCPU}, workers(90%): ${NWORKERS}"
+
+cd "${PROJECT_ROOT}"
+
+# Replace the MATLAB command body with your final DOE runner when implemented.
+matlab -batch "fprintf('prefdir=%s\\n',prefdir); p=gcp('nocreate'); if isempty(p), parpool('local', ${NWORKERS}); end; disp('MATLAB session and parallel pool are ready. Run DOE runner here.');"

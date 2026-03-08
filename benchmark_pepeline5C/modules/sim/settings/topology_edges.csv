@@ -1,0 +1,11 @@
+EdgeID,EdgeName,EdgeType,FromNode,ToNode,Length_km,Diameter_m,Lambda,DiscSeg,IsCompressorEdge
+1,Pipe1,pipe,11,2,180.0045,1,0.008,0,0
+2,Pipe2,pipe,10,3,180.0045,1,0.008,0,0
+3,Pipe3,pipe,9,4,180.0045,1,0.008,0,0
+4,Pipe4,pipe,8,5,180.0045,1,0.008,0,0
+5,Pipe5,pipe,6,7,180.0045,1,0.008,0,0
+6,Comp1,compressor,1,11,0.25,1,0.001,1,1
+7,Comp2,compressor,2,10,0.25,1,0.001,1,1
+8,Comp3,compressor,3,9,0.25,1,0.001,1,1
+9,Comp4,compressor,4,8,0.25,1,0.001,1,1
+10,Comp5,compressor,5,6,0.25,1,0.001,1,1

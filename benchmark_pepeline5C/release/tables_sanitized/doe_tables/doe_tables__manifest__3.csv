@@ -1,0 +1,2 @@
+Seed,ActionDt_hr,SampleID,CaseFile,OK,SimSec,TransientSteps,Jcost,Jsupp,Jvar,ErrorMessage
+11,2,1,shap_src_min/doe/try1/sim_outputs/smoke_seed11_dt2_n1/cases/seed_011/dataset_dt_2p0/sample_000001.mat,1,0.931212,289,568135904712.769,2493897.84389831,8.25597279997064,

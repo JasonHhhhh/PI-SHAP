@@ -1,0 +1,2 @@
+RunID,Solsteps,Lmax_km,NodeCount,EdgeCount,RuntimeSec,SetupSec,Jcost,Jsupp,Jvar,CostPeak,SuppMean,VarPeak,PressureMean,Status,Message,IsReference,RelErrJcost,RelErrJsupp,RelErrJvar,CurveErrPnodMean,CurveErrCost,CurveErrSupp
+sol384_lmax_2p00,384,2,461,460,2.003083,0.03273,2393928320268.81,23549245.1007079,5272800.36768221,46002847.3807848,273.234302967311,275.56555883088,6459261.39264678,ok,,1,0,0,0,0,0,0

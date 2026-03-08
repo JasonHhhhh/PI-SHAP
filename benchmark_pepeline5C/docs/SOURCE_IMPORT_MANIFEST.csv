@@ -1,0 +1,19 @@
+source_path,destination_path,mode,notes
+/home/projects/Gas_Line_case/src/,benchmark_pepeline5C/code/core_sim/src/,copied,core simulator source
+/home/projects/Gas_Line_case/shap_src/,benchmark_pepeline5C/code/core_sim/shap_src/,copied,core simulator source
+/home/projects/Gas_Line_case/shap_src_min/doe/,benchmark_pepeline5C/modules/doe/,copied_with_exclusion,excluded try1/sim_outputs/full_all_samples_90pct/cases
+/home/projects/Gas_Line_case/shap_src_min/sim/,benchmark_pepeline5C/modules/sim/,copied,includes convergence outputs
+/home/projects/Gas_Line_case/shap_src_min/NNs/,benchmark_pepeline5C/modules/shap_vs_nn/,copied,SHAP-vs-NN workflow
+/home/projects/Gas_Line_case/shap_src_min/performance3/top1_optimality_package/,benchmark_pepeline5C/modules/performance3/top1_optimality_package/,copied,single-cost and multi-objective package artifacts
+/home/projects/Gas_Line_case/shap_src_min/performance3/s020_abs_reviewer/reviewer_outputs/,benchmark_pepeline5C/modules/performance3/source_runs/single_cost_s020_abs_reviewer/,copied,source-run outputs for single-cost figure/table tracing
+/home/projects/Gas_Line_case/shap_src_min/performance3/s020_fontfix_reviewer/reviewer_outputs/,benchmark_pepeline5C/modules/performance3/source_runs/single_cost_s020_fontfix_reviewer/,copied,source-run outputs for single-cost action figure tracing
+/home/projects/Gas_Line_case/shap_src_min/performance3/s_sweep_seedsplit/S020/reviewer_outputs/,benchmark_pepeline5C/modules/performance3/source_runs/multi_objective_s020_reviewer/,copied,source-run outputs for multi-objective figure/table tracing
+/home/projects/Gas_Line_case/shap_src_min/performance3/rule_learner_compare/,benchmark_pepeline5C/modules/performance3/rule_learner_compare/,copied,rule-learner comparison artifacts
+/home/projects/Gas_Line_case/shap_src_min/performance3/method_runs/holdout_shap_maps_cache_seed11_23_37_dt1p0.mat,benchmark_pepeline5C/modules/performance3/method_runs/holdout_shap_maps_cache_seed11_23_37_dt1p0.mat,copied,required cache for rule-comparator rerun
+/home/projects/Gas_Line_case/shap_src_min/performance3/run_performance_compare_top1_perf3_min.m,benchmark_pepeline5C/modules/performance3/scripts/run_performance_compare_top1_perf3_min.m,copied,entry script
+/home/projects/Gas_Line_case/shap_src_min/performance3/run_reviewer_single_multi_perf3_min.m,benchmark_pepeline5C/modules/performance3/scripts/run_reviewer_single_multi_perf3_min.m,copied,entry script
+/home/projects/Gas_Line_case/shap_src_min/performance3/run_s_sweep_seedsplit_perf3_min.m,benchmark_pepeline5C/modules/performance3/scripts/run_s_sweep_seedsplit_perf3_min.m,copied,entry script
+/home/projects/Gas_Line_case/shap_src_min/performance3/run_s20_fast_refine_perf3_min.m,benchmark_pepeline5C/modules/performance3/scripts/run_s20_fast_refine_perf3_min.m,copied,entry script
+/home/projects/Gas_Line_case/shap_src_min/performance3/run_rule_learner_baseline_compare_perf3_min.m,benchmark_pepeline5C/modules/performance3/scripts/run_rule_learner_baseline_compare_perf3_min.m,copied,entry script
+/home/projects/Gas_Line_case/shap_src_min/performance2/run_performance_compare_top1_min.m,benchmark_pepeline5C/modules/performance_shared/run_performance_compare_top1_min.m,copied,dependency script
+/home/projects/Gas_Line_case/shap_src_min/performance/run_reviewer_single_multi_min.m,benchmark_pepeline5C/modules/performance_shared/run_reviewer_single_multi_min.m,copied,dependency script

@@ -1,0 +1,7 @@
+{
+  "terminal.integrated.env.linux": {
+    "MATLAB_PREFDIR": "/home/<your_user>/.matlab_persist/R2024b",
+    "MLM_LICENSE_FILE": "27000@<your-license-server-host>",
+    "DOE_WORKER_RATIO": "0.90"
+  }
+}

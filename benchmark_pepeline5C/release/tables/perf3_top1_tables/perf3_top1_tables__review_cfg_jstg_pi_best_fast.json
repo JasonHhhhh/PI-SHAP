@@ -1,0 +1,12 @@
+{
+  "work_dir": "/home/projects/Gas_Line_case/shap_src_min/performance3/jstg_pi_best_fast",
+  "repo_dir": "/home/projects/Gas_Line_case",
+  "holdout_score_csv": "/home/projects/Gas_Line_case/shap_src_min/performance3/s20_fast_refine/C3_noFill_balanced_w85540/tables/holdout_case_scores.csv",
+  "holdout_corr_csv": "/home/projects/Gas_Line_case/shap_src_min/performance3/s20_fast_refine/C3_noFill_balanced_w85540/tables/holdout_score_correlation.csv",
+  "single_enforce_unique": false,
+  "single_stage2_topk": 200,
+  "single_stage2_proxy_weight": 0.1,
+  "multi_use_dense_weight_grid": true,
+  "multi_weight_dense_step": 0.02,
+  "note": "Reviewer-only fast rerank run to obtain PI-best Jstg under TOP-1 without retraining or SHAP recomputation"
+}

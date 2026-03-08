@@ -1,0 +1,16 @@
+PackageFile,SourceFile,Usage
+Fig1A_action_jcost_S020_baseline.png,/home/projects/Gas_Line_case/shap_src_min/performance3/s020_fontfix_reviewer/reviewer_outputs/plots/single_action_5comp_single_jcost.png,"Jcst top-1 action plot (baseline S020, font-fixed)"
+Fig1B_metric_jcost_S020_baseline.png,/home/projects/Gas_Line_case/shap_src_min/performance3/s020_abs_reviewer/reviewer_outputs/plots/single_metric_line_bar_single_jcost.png,Jcst metric plot on absolute scale (no normalize in title)
+Fig2A_action_jstg_C1.png,/home/projects/Gas_Line_case/shap_src_min/performance3/jstg_pi_best_fast_abs/reviewer_outputs/plots/single_action_5comp_single_jsupp.png,"Jstg top-1 action plot (fast rerank, PI-best, absolute companion)"
+Fig2B_metric_jstg_C1.png,/home/projects/Gas_Line_case/shap_src_min/performance3/jstg_pi_best_fast_abs/reviewer_outputs/plots/single_metric_line_bar_single_jsupp.png,Jstg metric plot on absolute scale (no normalize in title)
+Fig3A_action_jvar_C1.png,/home/projects/Gas_Line_case/shap_src_min/performance3/s20_fast_refine_round2/C1_costGuard_thr035_noFill_bal/reviewer_outputs/plots/single_action_5comp_single_jvar.png,Jvar top-1 action plot (C1 fast-refine)
+Fig3B_metric_jvar_C1.png,/home/projects/Gas_Line_case/shap_src_min/performance3/c1_abs_reviewer/reviewer_outputs/plots/single_metric_line_bar_single_jvar.png,Jvar metric plot on absolute scale (no normalize in title)
+Fig4_multi_pareto_S020_baseline.png,/home/projects/Gas_Line_case/shap_src_min/performance3/s_sweep_seedsplit/S020/reviewer_outputs/plots/multi_shap_pareto_weight_distance_scatter.png,MO Pareto scatter (baseline S020)
+table_single_jcost_S020_baseline.csv,/home/projects/Gas_Line_case/shap_src_min/performance3/s020_abs_reviewer/reviewer_outputs/tables/single_target_metric_single_jcost.csv,Jcst numeric table (absolute-figure run source)
+table_single_jstg_C1.csv,/home/projects/Gas_Line_case/shap_src_min/performance3/jstg_pi_best_fast_abs/reviewer_outputs/tables/single_target_metric_single_jsupp.csv,"Jstg numeric table (fast rerank, PI-best, absolute-figure run)"
+table_single_jvar_C1.csv,/home/projects/Gas_Line_case/shap_src_min/performance3/c1_abs_reviewer/reviewer_outputs/tables/single_target_metric_single_jvar.csv,Jvar numeric table (absolute-figure run source)
+table_multi_mo_S020_baseline.csv,/home/projects/Gas_Line_case/shap_src_min/performance3/s_sweep_seedsplit/S020/reviewer_outputs/tables/multi_mo_metrics.csv,MO numeric table
+run_cfg_C1_costGuard_thr035_noFill_bal.json,/home/projects/Gas_Line_case/shap_src_min/performance3/s20_fast_refine_round2/C1_costGuard_thr035_noFill_bal/RUN_CFG.json,C1 parameters JSON
+review_cfg_jstg_pi_best_fast.json,/home/projects/Gas_Line_case/shap_src_min/performance3/top1_optimality_package/tables/review_cfg_jstg_pi_best_fast.json,Reviewer fast-rerank parameters for Jstg PI-best run
+jcost_physical_audit.csv,/home/projects/Gas_Line_case/shap_src_min/performance3/top1_optimality_package/tables/jcost_physical_audit.csv,Constraint and solver audit for PI-vs-TR Jcost cases
+table_single_objective_extended_baselines.csv,/home/projects/Gas_Line_case/shap_src_min/performance3/top1_optimality_package/tables/table_single_objective_extended_baselines.csv,Derived PI margins versus SHAP and engineering baselines
