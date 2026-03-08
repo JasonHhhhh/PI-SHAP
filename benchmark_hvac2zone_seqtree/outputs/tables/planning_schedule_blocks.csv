@@ -1,0 +1,9 @@
+PlanLabel,PlanSource,B1_Z1,B1_Z2,B2_Z1,B2_Z2,B3_Z1,B3_Z2,B4_Z1,B4_Z2
+Opt-Exhaustive,single_comparison,0,0.7,1,0.35,0,0.7,1,0.35
+Rule-PriceAware,single_comparison,0.35,0.7,0.35,0.35,0.35,0.7,0.35,0.35
+Rule-ComfortFirst,single_comparison,0.7,1,1,0.7,0.7,1,1,0.7
+Rule-EcoNight,single_comparison,0.35,0.35,0.35,0,0.35,0.35,0.35,0
+Pareto_MinCost,multi_objective_selection,0,0,0,0,0,0,0,0
+Pareto_Knee,multi_objective_selection,0,0.35,0.7,0,0,0.35,0.35,0
+Pareto_MinDiscomfort,multi_objective_selection,0,0.7,1,0.35,0,0.7,1,0.35
+SingleObj_Opt,multi_objective_selection,0,0.7,1,0.35,0,0.7,1,0.35
