@@ -10,6 +10,8 @@ This benchmark is a modular, readable multivariable time-series case for:
 
 For a concise equation-only formulation, see `FORMULATION.md`.
 
+For SHAP appendix-style conclusions and fairness definitions, see `SHAP_RESULTS.md`.
+
 ---
 
 ## 1) Mathematical definition
