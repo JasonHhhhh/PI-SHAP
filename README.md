@@ -1,82 +1,89 @@
 # PI-SHAP Benchmark Repository
 
-This repository contains two reproducible, time-series optimization benchmarks:
+This repository contains two reproducible time-series optimization systems:
 
-1. `benchmark_pepeline5C` (gas-network control case from the PI-SHAP pipeline)
-2. `benchmark_hvac2zone_seqtree` (public-friendly two-zone HVAC case)
+1. `benchmark_pepeline5C` (gas-network operation benchmark)
+2. `benchmark_hvac2zone_seqtree` (public-friendly two-zone HVAC benchmark)
 
-Both benchmarks include simulation, DOE, single-objective planning, multi-objective
-planning, and SHAP-based scheduling analysis.
+Both include simulation, DOE, single-objective planning, multi-objective planning,
+and SHAP-based schedule ranking.
 
 ---
 
-## Repository completeness check
-
-Current top-level contents:
+## Repository Completeness
 
 - `benchmark_pepeline5C/`
 - `benchmark_hvac2zone_seqtree/`
+- `REPO_INTEGRITY_CHECK.md`
 - `README.md`
-- `.gitignore`
 
-Core run entry for case B:
-
-- `benchmark_hvac2zone_seqtree/run_benchmark_hvac2zone_seqtree.m`
-
-Core run/reproduction entry for case A:
-
-- `benchmark_pepeline5C/reproduction_guidance.md`
-
-Note: the gas case intentionally excludes one oversized binary (`>100MB`) via
-`.gitignore` for GitHub compatibility.
+Integrity checklist: `REPO_INTEGRITY_CHECK.md`
 
 ---
 
 ## System A: Gas Pipeline Case (`benchmark_pepeline5C`)
 
-### A.1 Mathematical formulation (single objective)
+### A.1 State and dynamics
 
-Let `x_t` be transient gas-network state, `u_t` control actions (compressor and
-operational policy variables), and `d_t` disturbances/boundary demand.
+Let $x_t$ be the transient gas-network state (nodal pressures, linepack-related
+states, and associated variables), $u_t$ be control decisions, and $d_t$ be
+demand/boundary disturbances.
 
-Discrete-time dynamics (compact form):
+The transient model is represented compactly as:
 
-`g(x_{t+1}, x_t, u_t, d_t) = 0,   t = 0, ..., T-1`
+$$
+g(x_{t+1}, x_t, u_t, d_t) = 0, \quad t = 0,\dots,T-1.
+$$
 
-Single-objective optimization (cost branch):
+### A.2 Single-objective formulation (cost branch)
 
-`min_u J_cost(u) = sum_{t=0}^{T-1} c_t * E_t(u_t, x_t)`
+$$
+\min_{u_{0:T-1}} J_{\mathrm{cost}}(u) = \sum_{t=0}^{T-1} c_t\,E_t(u_t,x_t)
+$$
 
-Subject to physical and operational constraints:
+subject to core constraints:
 
-- Nodal balance: `A*q_t + s_t - d_t = 0`
-- Pressure bounds: `p_min <= p_{i,t} <= p_max`
-- Flow bounds: `q_min <= q_{ij,t} <= q_max`
-- Control bounds/ramp: `u_min <= u_t <= u_max`, `|u_t-u_{t-1}| <= Delta_u_max`
-- Initial and terminal consistency: `x_0 = x_init`, terminal feasibility constraints.
+$$
+Aq_t + s_t - d_t = 0 \quad \text{(nodal balance)}
+$$
 
-### A.2 Mathematical formulation (multi objective)
+$$
+p_{\min} \le p_{i,t} \le p_{\max}, \qquad q_{\min} \le q_{ij,t} \le q_{\max}
+$$
 
-Two-objective representation:
+$$
+u_{\min} \le u_t \le u_{\max}, \qquad \lVert u_t-u_{t-1}\rVert_\infty \le \Delta u_{\max}
+$$
 
-`min_u [ J_cost(u), J_supply(u) ]`
+and initialization/terminal feasibility constraints (implemented in solver scripts).
 
-with weight-sweep scalarization used in reviewer pipelines:
+### A.3 Multi-objective formulation
 
-`min_u J_w(u) = WCost * J_cost(u) + WSupply * J_supply(u)`
+Bi-objective statement:
 
-where `(WCost, WSupply)` are scanned to produce Pareto candidates and compute
-front-quality metrics (HV, IGD, epsilon-type distances).
+$$
+\min_u \big[J_{\mathrm{cost}}(u),\,J_{\mathrm{supply}}(u)\big].
+$$
 
-### A.3 Main code/doc entry points
+Reviewer pipeline uses weight scalarization:
 
-- Reproduction guide: `benchmark_pepeline5C/reproduction_guidance.md`
+$$
+\min_u J_w(u)=W_{\mathrm{Cost}}J_{\mathrm{cost}}(u)+W_{\mathrm{Supply}}J_{\mathrm{supply}}(u),
+$$
+
+with weight sweep to generate Pareto candidates and evaluate front quality
+(HV/IGD/epsilon-style indicators in output tables).
+
+### A.4 Entry points and artifacts
+
+- Main reproduction guide: `benchmark_pepeline5C/reproduction_guidance.md`
+- Detailed case doc: `benchmark_pepeline5C/README.md`
 - Curated single-objective tables:
   - `benchmark_pepeline5C/modules/performance3/curated/single_objective_cost/tables/`
 - Curated multi-objective tables:
   - `benchmark_pepeline5C/modules/performance3/curated/multi_objective_cost_var/tables/`
 
-### A.4 Example figures
+Example figures:
 
 ![Gas single-objective metric](benchmark_pepeline5C/release/figures/perf3_top1/perf3_top1__fig1b_metric_jcost_s020_baseline.png)
 
@@ -86,85 +93,96 @@ front-quality metrics (HV, IGD, epsilon-type distances).
 
 ## System B: HVAC 2-Zone Case (`benchmark_hvac2zone_seqtree`)
 
-### B.1 State/control/disturbance definition
+### B.1 States, controls, disturbances
 
-- States: indoor temperatures `T1_t`, `T2_t`
-- Controls: cooling command `u1_t`, `u2_t`, each bounded in `[0,1]`
-- Disturbances: outdoor temperature `Tout_t`, solar `S_t`, occupancy `Occ1_t, Occ2_t`, price `Price_t`
-- Time grid: `dt = 1 h`, horizon `T = 24 h`
-- Planning granularity: 4 control blocks x 6 hours (same granularity used in SHAP scheduling)
+- States: indoor temperatures $T_{1,t}, T_{2,t}$
+- Controls: cooling commands $u_{1,t},u_{2,t}\in[0,1]$
+- Disturbances: $T_{\mathrm{out},t}$, solar $S_t$, occupancy $\mathrm{Occ}_{z,t}$,
+  and electricity price $\mathrm{Price}_t$
+- Horizon: $T=24$ with $\Delta t=1\,\mathrm{h}$
+- Planning granularity: 4 blocks $\times$ 6 hours
 
-### B.2 Dynamic equations
+### B.2 Thermal dynamics
 
-For each hour `t`:
+$$
+T_{1,t+1}=T_{1,t}+\Delta t\Big[k_{\mathrm{out},1}(T_{\mathrm{out},t}-T_{1,t})
++k_{\mathrm{cross}}(T_{2,t}-T_{1,t})+k_{\mathrm{solar},1}S_t
++k_{\mathrm{occ},1}\,\mathrm{Occ}_{1,t}-k_{\mathrm{cool},1}u_{1,t}\Big]
+$$
 
-`T1_{t+1} = T1_t + dt * [ k_out1*(Tout_t - T1_t) + k_cross*(T2_t - T1_t) + k_solar1*S_t + k_occ1*Occ1_t - k_cool1*u1_t ]`
+$$
+T_{2,t+1}=T_{2,t}+\Delta t\Big[k_{\mathrm{out},2}(T_{\mathrm{out},t}-T_{2,t})
++k_{\mathrm{cross}}(T_{1,t}-T_{2,t})+k_{\mathrm{solar},2}S_t
++k_{\mathrm{occ},2}\,\mathrm{Occ}_{2,t}-k_{\mathrm{cool},2}u_{2,t}\Big]
+$$
 
-`T2_{t+1} = T2_t + dt * [ k_out2*(Tout_t - T2_t) + k_cross*(T1_t - T2_t) + k_solar2*S_t + k_occ2*Occ2_t - k_cool2*u2_t ]`
+Bounds:
 
-Boundary and box constraints:
+$$
+0\le u_{z,t}\le 1, \qquad T_{\min}\le T_{z,t}\le T_{\max}.
+$$
 
-- `0 <= u1_t, u2_t <= 1`
-- `T_floor <= Tz_t <= T_ceil` (used as model bounds)
-- Comfort band around setpoint: `|Tz_t - T_set| <= deadband` (soft-constrained via penalty)
+### B.3 Single-objective scheduling
 
-### B.3 Single-objective optimization
+Power and cost:
 
-Daily energy cost:
+$$
+P_{z,t}=P^{\max}_z u_{z,t},\qquad
+J_{\mathrm{cost}}=\sum_t \mathrm{Price}_t\,(P_{1,t}+P_{2,t})\,\Delta t.
+$$
 
-`J_cost = sum_t Price_t * (P1_t + P2_t) * dt`, with `Pz_t = Pz_max * uz_t`
+Comfort exceedance penalty:
 
-Comfort penalty:
-
-`J_disc = sum_t sum_{z in {1,2}} max(0, |Tz_t - T_set| - deadband)^2 + w_T * terminal_penalty`
+$$
+J_{\mathrm{disc}}=\sum_t\sum_{z\in\{1,2\}}
+\max\big(0,|T_{z,t}-T_{\mathrm{set}}|-\delta\big)^2 + w_T\,\phi_T.
+$$
 
 Control smoothness:
 
-`J_smooth = sum_t ||u_t - u_{t-1}||_2^2`
+$$
+J_{\mathrm{smooth}}=\sum_t\lVert u_t-u_{t-1}\rVert_2^2.
+$$
 
-Scalar objective:
+Optimization objective:
 
-`min_u J_single = J_cost + w_disc*J_disc + w_smooth*J_smooth`
+$$
+\min_u J_{\mathrm{single}} = J_{\mathrm{cost}} + w_dJ_{\mathrm{disc}} + w_sJ_{\mathrm{smooth}}.
+$$
 
-### B.4 Multi-objective optimization
+### B.4 Multi-objective scheduling
 
-Bi-objective form:
+$$
+\min_u \big[J_{\mathrm{cost}}(u),\,J_{\mathrm{disc}}(u)\big].
+$$
 
-`min_u [ J_cost(u), J_disc(u) ]`
+Pareto points are extracted from the full discrete candidate pool.
 
-Pareto set is extracted from the full discrete policy pool. Representative plans:
+### B.5 SHAP schedule ranking protocol
 
-- Min-cost point
-- Knee point
-- Min-discomfort point
+For each target ($J_{\mathrm{single}}$ and a balanced multi target), using identical
+plan granularity and split sizes across methods:
 
-### B.5 SHAP scheduling evaluation protocol
+- Ori-SHAP
+- Cond-SHAP
+- PI-SHAP
 
-For each objective (`single`, `multi_balanced`), using same split and same planning
-granularity:
+Evaluation metrics:
 
-- Train/test split over candidate plans
-- Fit common surrogate model
-- Compute method scores for:
-  - Ori-SHAP
-  - Cond-SHAP
-  - PI-SHAP
+- Correlation between SHAP score and negative objective (Spearman/Pearson)
+- Top1 regret and Top5 regret
+- Multi-split fairness summaries
 
-Metrics reported:
+### B.6 Entry points and artifacts
 
-- Correlation: Spearman/Pearson between SHAP score and `-objective`
-- Scheduling quality: top1 and top5 regret
-- Multi-split fairness experiment summary
+- Main run: `benchmark_hvac2zone_seqtree/run_benchmark_hvac2zone_seqtree.m`
+- Detailed case doc: `benchmark_hvac2zone_seqtree/README.md`
+- SHAP conclusions: `benchmark_hvac2zone_seqtree/SHAP_RESULTS.md`
+- Auto run summary: `benchmark_hvac2zone_seqtree/outputs/SUMMARY.md`
 
-### B.6 Main entry points
+Example figures:
 
-- Run: `benchmark_hvac2zone_seqtree/run_benchmark_hvac2zone_seqtree.m`
-- Case details: `benchmark_hvac2zone_seqtree/README.md`
-- Auto summary: `benchmark_hvac2zone_seqtree/outputs/SUMMARY.md`
-
-### B.7 Example figures
-
-![HVAC multi-objective Pareto](benchmark_hvac2zone_seqtree/outputs/figures/figure_03_multi_objective_pareto.png)
+![HVAC Pareto](benchmark_hvac2zone_seqtree/outputs/figures/figure_03_multi_objective_pareto.png)
 
 ![HVAC SHAP correlations](benchmark_hvac2zone_seqtree/outputs/figures/figure_05_shap_correlations.png)
 
@@ -172,22 +190,20 @@ Metrics reported:
 
 ---
 
-## How to run
+## Run Instructions
 
 ### Case A (gas)
 
-Follow: `benchmark_pepeline5C/reproduction_guidance.md`
+See: `benchmark_pepeline5C/reproduction_guidance.md`
 
 ### Case B (HVAC)
-
-From MATLAB:
 
 ```matlab
 run_benchmark_hvac2zone_seqtree
 ```
 
-Outputs are written to:
+If your environment has OpenGL exit instability:
 
-- `benchmark_hvac2zone_seqtree/outputs/tables/`
-- `benchmark_hvac2zone_seqtree/outputs/figures/`
-- `benchmark_hvac2zone_seqtree/outputs/SUMMARY.md`
+```bash
+MATLAB_DISABLE_HARDWARE_OPENGL=1 matlab -batch "run_benchmark_hvac2zone_seqtree"
+```

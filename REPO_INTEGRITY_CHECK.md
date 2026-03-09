@@ -11,6 +11,7 @@ their runnable entry points, and reproducible outputs.
 
 ## 2) Gas benchmark presence
 
+- [x] `benchmark_pepeline5C/README.md`
 - [x] `benchmark_pepeline5C/reproduction_guidance.md`
 - [x] `benchmark_pepeline5C/code/`
 - [x] `benchmark_pepeline5C/modules/`

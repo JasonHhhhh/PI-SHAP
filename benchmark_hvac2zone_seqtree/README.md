@@ -1,155 +1,156 @@
 # HVAC 2-Zone Sequential Planning Benchmark
 
-This case is a readable, public-friendly multivariable time-series benchmark for:
+This benchmark is a modular, readable multivariable time-series case for:
 
-- simulation,
-- DOE,
-- single-objective scheduling,
-- multi-objective scheduling,
-- SHAP-based ranking and planning comparison.
-
-It is structured in a modular way so each stage is auditable.
+- thermal simulation,
+- DOE scenario generation,
+- single-objective optimization,
+- multi-objective optimization,
+- SHAP-based schedule ranking.
 
 ---
 
-## 1) Folder organization
+## 1) Mathematical definition
 
-### Main entry
+### 1.1 Variables
 
-- `run_benchmark_hvac2zone_seqtree.m`
-  - Orchestrates all modules in order.
+- States: $T_{1,t}, T_{2,t}$
+- Controls: $u_{1,t},u_{2,t}$
+- Disturbances: $T_{\mathrm{out},t}$, solar $S_t$, occupancy $\mathrm{Occ}_{z,t}$,
+  and price $\mathrm{Price}_t$
 
-### Code modules (`src/`)
+Time setting:
 
-- `src/hvac_default_cfg.m`
-  - Problem parameters, weights, and SHAP experiment settings.
+$$
+t=0,\dots,23,\quad \Delta t=1\,\mathrm{h}.
+$$
 
-- `src/hvac_setup_io.m`
-  - Output folder setup (`outputs/figures`, `outputs/tables`).
-
-- `src/hvac_build_scenarios.m`
-  - Base scenario and DOE generation.
-
-- `src/hvac_run_planning.m`
-  - Full discrete candidate evaluation,
-  - single-objective comparison,
-  - multi-objective Pareto extraction,
-  - robustness evaluation,
-  - non-SHAP figures.
-
-- `src/hvac_run_shap.m`
-  - SHAP score computation for Ori/Cond/PI variants,
-  - correlation and scheduling metrics,
-  - multi-split fairness experiments,
-  - SHAP figures.
-
-- `src/hvac_write_summary.m`
-  - Writes `outputs/SUMMARY.md` from generated tables.
-
-### Outputs (`outputs/`)
-
-- `outputs/tables/`: all numeric experiment tables.
-- `outputs/figures/`: all generated figures (`figure_01` ... `figure_09`).
-- `outputs/SUMMARY.md`: run summary and SHAP conclusions.
-- `outputs/workspace.mat`: saved run workspace.
-
----
-
-## 2) Mathematical problem definition
-
-### 2.1 States, controls, disturbances
-
-- States: zone temperatures `T1_t`, `T2_t`
-- Controls: cooling command `u1_t`, `u2_t`, with `0 <= uz_t <= 1`
-- Disturbances: outdoor temperature `Tout_t`, solar `S_t`, occupancy `Occz_t`, electricity price `Price_t`
-- Horizon: `T=24` with `dt=1 h`
-
-### 2.2 Dynamics
-
-`T1_{t+1} = T1_t + dt * [ k_out1*(Tout_t - T1_t) + k_cross*(T2_t - T1_t) + k_solar1*S_t + k_occ1*Occ1_t - k_cool1*u1_t ]`
-
-`T2_{t+1} = T2_t + dt * [ k_out2*(Tout_t - T2_t) + k_cross*(T1_t - T2_t) + k_solar2*S_t + k_occ2*Occ2_t - k_cool2*u2_t ]`
-
-State bounds:
-
-`T_floor <= Tz_t <= T_ceil`
-
-### 2.3 Single-objective scheduling
-
-Energy cost:
-
-`J_cost = sum_t Price_t * (P1_t + P2_t) * dt`
-
-where `Pz_t = Pz_max * uz_t`.
-
-Comfort penalty:
-
-`J_disc = sum_t sum_z max(0, |Tz_t - T_set| - deadband)^2 + w_terminal*terminal_penalty`
-
-Smoothness penalty:
-
-`J_smooth = sum_t ||u_t - u_{t-1}||_2^2`
-
-Optimization:
-
-`min_u J_single = J_cost + w_disc*J_disc + w_smooth*J_smooth`
-
-### 2.4 Multi-objective scheduling
-
-`min_u [ J_cost(u), J_disc(u) ]`
-
-Pareto front is extracted from the discrete pool and representative plans are selected:
-
-- minimum cost,
-- knee point,
-- minimum discomfort.
-
-### 2.5 Planning granularity and constraints
-
-Decision variables are blockwise constant controls:
+Planning granularity:
 
 - 4 blocks,
 - 6 hours per block,
 - 4 action levels per block-zone variable,
-- 8 decision variables total (2 zones x 4 blocks),
-- `4^8 = 65536` candidates.
+- total candidates: $4^8=65536$.
 
-This exact granularity is reused in SHAP scheduling experiments to keep fairness.
+### 1.2 Dynamics
+
+$$
+T_{1,t+1}=T_{1,t}+\Delta t\Big[k_{\mathrm{out},1}(T_{\mathrm{out},t}-T_{1,t})
++k_{\mathrm{cross}}(T_{2,t}-T_{1,t})
++k_{\mathrm{solar},1}S_t
++k_{\mathrm{occ},1}\,\mathrm{Occ}_{1,t}
+-k_{\mathrm{cool},1}u_{1,t}\Big]
+$$
+
+$$
+T_{2,t+1}=T_{2,t}+\Delta t\Big[k_{\mathrm{out},2}(T_{\mathrm{out},t}-T_{2,t})
++k_{\mathrm{cross}}(T_{1,t}-T_{2,t})
++k_{\mathrm{solar},2}S_t
++k_{\mathrm{occ},2}\,\mathrm{Occ}_{2,t}
+-k_{\mathrm{cool},2}u_{2,t}\Big]
+$$
+
+### 1.3 Constraints and boundaries
+
+$$
+0\le u_{z,t}\le 1,\qquad z\in\{1,2\}
+$$
+
+$$
+T_{\min}\le T_{z,t}\le T_{\max}
+$$
+
+Comfort band (soft-constrained through objective penalties):
+
+$$
+|T_{z,t}-T_{\mathrm{set}}|\le \delta.
+$$
 
 ---
 
-## 3) SHAP evaluation setup
+## 2) Optimization formulations
 
-Methods:
+### 2.1 Single-objective problem
+
+Power and cost:
+
+$$
+P_{z,t}=P_z^{\max}u_{z,t},\qquad
+J_{\mathrm{cost}}=\sum_t \mathrm{Price}_t\,(P_{1,t}+P_{2,t})\,\Delta t
+$$
+
+Comfort exceedance:
+
+$$
+J_{\mathrm{disc}}=\sum_t\sum_{z\in\{1,2\}}
+\max(0,|T_{z,t}-T_{\mathrm{set}}|-\delta)^2 + w_T\phi_T
+$$
+
+Smoothness:
+
+$$
+J_{\mathrm{smooth}}=\sum_t\lVert u_t-u_{t-1}\rVert_2^2
+$$
+
+Single objective:
+
+$$
+\min_u J_{\mathrm{single}} = J_{\mathrm{cost}} + w_dJ_{\mathrm{disc}} + w_sJ_{\mathrm{smooth}}.
+$$
+
+### 2.2 Multi-objective problem
+
+$$
+\min_u \big[J_{\mathrm{cost}}(u),\,J_{\mathrm{disc}}(u)\big].
+$$
+
+Pareto points are extracted from the evaluated candidate pool.
+
+---
+
+## 3) SHAP evaluation protocol
+
+Methods compared under identical data split and granularity:
 
 - Ori-SHAP
 - Cond-SHAP
 - PI-SHAP
 
-For each objective (single and multi-balanced):
+Reported metrics:
 
-1. fit a common surrogate on train split,
-2. compute SHAP-style scores on test split,
-3. evaluate:
-   - Spearman/Pearson with `-objective`,
-   - top1 regret,
-   - top5 regret.
+- correlation with negative objective (Spearman/Pearson),
+- Top1 regret,
+- Top5 regret,
+- multi-split fairness summary.
 
-Additional fairness study:
+Additional fairness split study uses multiple random seeds and reports both:
 
-- multiple random train/test splits,
-- identical sample counts per method,
-- summary by mean/std of regrets and correlations.
+- Top1-priority ranking,
+- composite ranking (Top1 + Top5 + correlation).
 
 ---
 
-## 4) Run
+## 4) Modular code layout
+
+- `run_benchmark_hvac2zone_seqtree.m`: global orchestrator
+- `src/hvac_default_cfg.m`: parameters and experiment config
+- `src/hvac_setup_io.m`: output folder management
+- `src/hvac_build_scenarios.m`: base day + DOE
+- `src/hvac_run_planning.m`: simulation/planning modules
+- `src/hvac_run_shap.m`: SHAP and fairness modules
+- `src/hvac_write_summary.m`: summary writer
+
+---
+
+## 5) Run commands
+
+MATLAB:
 
 ```matlab
 run_benchmark_hvac2zone_seqtree
 ```
 
-If your environment has OpenGL instability in headless mode, run with software OpenGL:
+Headless/OpenGL-safe CLI run:
 
 ```bash
 MATLAB_DISABLE_HARDWARE_OPENGL=1 matlab -batch "run_benchmark_hvac2zone_seqtree"
@@ -157,16 +158,12 @@ MATLAB_DISABLE_HARDWARE_OPENGL=1 matlab -batch "run_benchmark_hvac2zone_seqtree"
 
 ---
 
-## 5) Key result files
+## 6) Key outputs
 
-### Planning
+Tables:
 
 - `outputs/tables/single_objective_comparison.csv`
 - `outputs/tables/multi_objective_selected_plans.csv`
-- `outputs/tables/robustness_summary.csv`
-
-### SHAP
-
 - `outputs/tables/shap_correlation_single.csv`
 - `outputs/tables/shap_correlation_multi.csv`
 - `outputs/tables/shap_schedule_compare_single.csv`
@@ -174,7 +171,7 @@ MATLAB_DISABLE_HARDWARE_OPENGL=1 matlab -batch "run_benchmark_hvac2zone_seqtree"
 - `outputs/tables/shap_fairness_experiments_summary.csv`
 - `outputs/tables/shap_conclusion_summary.csv`
 
-### Figures
+Figures:
 
 - `outputs/figures/figure_03_multi_objective_pareto.png`
 - `outputs/figures/figure_05_shap_correlations.png`
@@ -182,12 +179,6 @@ MATLAB_DISABLE_HARDWARE_OPENGL=1 matlab -batch "run_benchmark_hvac2zone_seqtree"
 - `outputs/figures/figure_07_shap_schedule_compare_multi.png`
 - `outputs/figures/figure_09_shap_fairness_summary.png`
 
----
+Auto summary:
 
-## 6) What to read first
-
-1. `outputs/SUMMARY.md`
-2. `outputs/tables/shap_conclusion_summary.csv`
-3. `outputs/tables/shap_fairness_experiments_summary.csv`
-4. `outputs/figures/figure_05_shap_correlations.png`
-5. `outputs/figures/figure_09_shap_fairness_summary.png`
+- `outputs/SUMMARY.md`

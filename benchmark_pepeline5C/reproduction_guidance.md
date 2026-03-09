@@ -13,6 +13,26 @@ The most important result files are:
 - `modules/performance3/curated/multi_objective_cost_var/tables/multi_branch_table_top1_s020_baseline.csv`
 - `modules/performance3/curated/multi_objective_cost_var/tables/multi_branch_table_summary.csv`
 
+## 1.1 Mathematical objective expressions
+
+Single-objective branch:
+
+$$
+\min_u J_{\mathrm{cost}}(u)=\sum_{t=0}^{T-1} c_tE_t(u_t,x_t)
+$$
+
+Multi-objective branch:
+
+$$
+\min_u\big[J_{\mathrm{cost}}(u),J_{\mathrm{supply}}(u)\big]
+$$
+
+Weight-sweep scalarization used for reviewer outputs:
+
+$$
+\min_u J_w(u)=W_{\mathrm{Cost}}J_{\mathrm{cost}}(u)+W_{\mathrm{Supply}}J_{\mathrm{supply}}(u).
+$$
+
 ## 2) Project Layout and Folder Responsibilities
 
 ### Root-level files and folders

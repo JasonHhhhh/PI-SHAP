@@ -20,6 +20,20 @@ All methods are evaluated on the same candidate pool and same planning granulari
   - Top1 regret
   - Top5 regret
 
+Metric definitions:
+
+$$
+\mathrm{Regret}_{\mathrm{Top1}}(\%) = \left(\frac{J(\hat u_{\mathrm{Top1}})}{\min_{u\in\mathcal U_{\mathrm{test}}}J(u)} - 1\right)\times 100
+$$
+
+$$
+\mathrm{Regret}_{\mathrm{Top5}}(\%) = \left(\frac{\min_{u\in\mathrm{Top5}}J(u)}{\min_{u\in\mathcal U_{\mathrm{test}}}J(u)} - 1\right)\times 100
+$$
+
+$$
+\rho_s = \mathrm{corr}_{\mathrm{Spearman}}(\mathrm{Score}_{\mathrm{SHAP}}, -J)
+$$
+
 ## 3) Base split conclusions
 
 From:
