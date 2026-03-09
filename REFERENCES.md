@@ -2,9 +2,6 @@
 
 This file maps methods/objects appearing in this repository to literature references.
 
-If a method/object is repository-specific and no external paper is used as its
-direct definition in this project, it is marked as **N/A (repository-defined)**.
-
 ---
 
 ## 1) Exact method/object mapping
@@ -13,15 +10,11 @@ direct definition in this project, it is marked as **N/A (repository-defined)**.
 |---|---|---|
 | `Ori-SHAP` | gas + HVAC SHAP comparisons | [R1] |
 | `Cond-SHAP` | gas + HVAC SHAP comparisons | [R2] |
-| `PI-SHAP` | gas + HVAC SHAP comparisons | N/A (repository-defined method label in this project) |
 | `CART_Gini`, `CART_Entropy` | gas rule-learner compare | [R4] |
 | `RF_Bag` | gas rule-learner compare | [R5] |
 | `AdaBoost_Stump` | gas rule-learner compare | [R6] |
 | DOE Latin-hypercube style sampling | HVAC DOE generation | [R3] |
 | Gas transient optimization object | `benchmark_pepeline5C` | [R7], [R8], [R9] |
-| HVAC 2-zone benchmark object | `benchmark_hvac2zone_seqtree` | N/A (repository-defined benchmark object) |
-| `tr-opt`, `ss-opt`, `ss-3stage`, `ss-7stage`, `ss-13stage` | gas single-objective baselines | N/A (repository-defined baseline naming) |
-
 ---
 
 ## 2) Bibliography
