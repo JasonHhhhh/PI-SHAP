@@ -1,0 +1,7 @@
+Evaluation,BestMethod
+BaseSplitSingle,PI-SHAP
+BaseSplitMulti,PI-SHAP
+FairnessTop1Single,Cond-SHAP
+FairnessTop1Multi,Cond-SHAP
+FairnessCompositeSingle,PI-SHAP
+FairnessCompositeMulti,PI-SHAP
