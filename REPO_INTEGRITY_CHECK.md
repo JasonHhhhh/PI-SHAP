@@ -12,6 +12,7 @@ their runnable entry points, and reproducible outputs.
 ## 2) Gas benchmark presence
 
 - [x] `benchmark_pepeline5C/README.md`
+- [x] `benchmark_pepeline5C/FORMULATION.md`
 - [x] `benchmark_pepeline5C/reproduction_guidance.md`
 - [x] `benchmark_pepeline5C/code/`
 - [x] `benchmark_pepeline5C/modules/`
@@ -20,6 +21,7 @@ their runnable entry points, and reproducible outputs.
 ## 3) HVAC benchmark code modules
 
 - [x] `benchmark_hvac2zone_seqtree/run_benchmark_hvac2zone_seqtree.m`
+- [x] `benchmark_hvac2zone_seqtree/FORMULATION.md`
 - [x] `benchmark_hvac2zone_seqtree/src/hvac_default_cfg.m`
 - [x] `benchmark_hvac2zone_seqtree/src/hvac_setup_io.m`
 - [x] `benchmark_hvac2zone_seqtree/src/hvac_build_scenarios.m`

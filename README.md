@@ -76,6 +76,7 @@ with weight sweep to generate Pareto candidates and evaluate front quality
 
 ### A.4 Entry points and artifacts
 
+- Equation-only formulation: `benchmark_pepeline5C/FORMULATION.md`
 - Main reproduction guide: `benchmark_pepeline5C/reproduction_guidance.md`
 - Detailed case doc: `benchmark_pepeline5C/README.md`
 - Curated single-objective tables:
@@ -175,6 +176,7 @@ Evaluation metrics:
 
 ### B.6 Entry points and artifacts
 
+- Equation-only formulation: `benchmark_hvac2zone_seqtree/FORMULATION.md`
 - Main run: `benchmark_hvac2zone_seqtree/run_benchmark_hvac2zone_seqtree.m`
 - Detailed case doc: `benchmark_hvac2zone_seqtree/README.md`
 - SHAP conclusions: `benchmark_hvac2zone_seqtree/SHAP_RESULTS.md`

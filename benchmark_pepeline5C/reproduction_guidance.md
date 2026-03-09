@@ -33,6 +33,47 @@ $$
 \min_u J_w(u)=W_{\mathrm{Cost}}J_{\mathrm{cost}}(u)+W_{\mathrm{Supply}}J_{\mathrm{supply}}(u).
 $$
 
+## 1.2 Dynamic constraints and boundaries (compact form)
+
+The transient network model is represented as a constrained evolution system:
+
+$$
+g(x_{t+1},x_t,u_t,d_t)=0,\qquad t=0,\dots,T-1.
+$$
+
+with core feasibility constraints:
+
+$$
+Aq_t+s_t-d_t=0
+$$
+
+$$
+p_{\min}\le p_{i,t}\le p_{\max},\qquad q_{\min}\le q_{ij,t}\le q_{\max}
+$$
+
+$$
+u_{\min}\le u_t\le u_{\max},\qquad \lVert u_t-u_{t-1}\rVert_\infty\le \Delta u_{\max}
+$$
+
+$$
+x_0=x_{\mathrm{init}},\qquad x_T\in\mathcal X_{\mathrm{terminal}}.
+$$
+
+## 1.3 SHAP score-quality metrics used in this package
+
+For each SHAP method score $s_i$ and objective value $J_i$ on evaluation set:
+
+$$
+\rho_s=\mathrm{corr}_{\mathrm{Spearman}}(s,-J),\qquad
+\rho_p=\mathrm{corr}_{\mathrm{Pearson}}(s,-J)
+$$
+
+Top-$k$ regret convention:
+
+$$
+\mathrm{Regret}_{\mathrm{Top}k}(\%)=\left(\frac{\min_{i\in\mathrm{Top}k}J_i}{\min_i J_i}-1\right)\times 100.
+$$
+
 ## 2) Project Layout and Folder Responsibilities
 
 ### Root-level files and folders

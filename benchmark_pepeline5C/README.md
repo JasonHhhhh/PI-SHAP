@@ -7,6 +7,8 @@ This is the gas-network PI-SHAP benchmark package used for:
 - multi-objective trade-off scheduling,
 - SHAP-based policy ranking and method comparison.
 
+For a concise equation-only formulation, see `FORMULATION.md`.
+
 ---
 
 ## 1) Mathematical model (compact)

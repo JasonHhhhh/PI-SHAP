@@ -8,6 +8,8 @@ This benchmark is a modular, readable multivariable time-series case for:
 - multi-objective optimization,
 - SHAP-based schedule ranking.
 
+For a concise equation-only formulation, see `FORMULATION.md`.
+
 ---
 
 ## 1) Mathematical definition
