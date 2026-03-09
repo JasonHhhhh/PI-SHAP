@@ -72,6 +72,32 @@ fprintf(fid, '\n## SHAP fairness study (multiple random splits)\n\n');
 fprintf(fid, '- Split seeds: `%s`\n', mat2str(cfg.shap_fair_split_seeds));
 fprintf(fid, '- Per split train/test: `%d / %d`\n\n', cfg.shap_fair_n_train, cfg.shap_fair_n_test);
 
+if ~isempty(shap_out.fair_summary_tbl)
+    if all(ismember({'CompositeWTop1', 'CompositeWTop5', 'CompositeWSpearman'}, shap_out.fair_summary_tbl.Properties.VariableNames))
+        w1 = shap_out.fair_summary_tbl.CompositeWTop1(1);
+        w5 = shap_out.fair_summary_tbl.CompositeWTop5(1);
+        ws = shap_out.fair_summary_tbl.CompositeWSpearman(1);
+    else
+        w1 = 0.20;
+        w5 = 0.50;
+        ws = 0.30;
+        if isfield(cfg, 'shap_composite_weights')
+            c = cfg.shap_composite_weights;
+            if isstruct(c) && isfield(c, 'top1') && isfield(c, 'top5') && isfield(c, 'spearman')
+                vv = [c.top1, c.top5, c.spearman];
+                if all(isfinite(vv)) && sum(vv) > eps
+                    vv = vv / sum(vv);
+                    w1 = vv(1);
+                    w5 = vv(2);
+                    ws = vv(3);
+                end
+            end
+        end
+    end
+    fprintf(fid, '- Composite ranking uses pre-set weights (fixed before result inspection): top1=`%.2f`, top5=`%.2f`, spearman=`%.2f`.\n', w1, w5, ws);
+    fprintf(fid, '- Composite ranking is criterion-specific and does not replace the Top1 ranking view.\n\n');
+end
+
 for obj = {'single', 'multi'}
     idx = strcmp(shap_out.fair_summary_tbl.Objective, obj{1});
     part = shap_out.fair_summary_tbl(idx, :);
@@ -89,6 +115,7 @@ for obj = {'single', 'multi'}
 end
 
 fprintf(fid, '## SHAP conclusions\n\n');
+fprintf(fid, '- Each line below is winner-under-criterion; these are not claimed as universal winners across all criteria.\n');
 for i = 1:height(shap_out.conclusion_tbl)
     fprintf(fid, '- `%s`: `%s`\n', shap_out.conclusion_tbl.Evaluation{i}, shap_out.conclusion_tbl.BestMethod{i});
 end

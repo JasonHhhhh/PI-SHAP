@@ -1,6 +1,8 @@
 function out = hvac_run_shap(cfg, planning, dirs)
 method_names = {'Ori-SHAP', 'Cond-SHAP', 'PI-SHAP'};
 
+w_comp = get_composite_weights_hvac(cfg);
+
 block_tbl = planning.block_tbl;
 metrics_tbl = planning.metrics_tbl;
 
@@ -360,6 +362,9 @@ summary_tbl = table(objective, method, mean_r1, std_r1, mean_r5, std_r5, mean_sp
 summary_tbl.RankByMeanTop1 = nan(height(summary_tbl), 1);
 summary_tbl.CompositeScore = nan(height(summary_tbl), 1);
 summary_tbl.RankByComposite = nan(height(summary_tbl), 1);
+summary_tbl.CompositeWTop1 = repmat(w_comp.top1, height(summary_tbl), 1);
+summary_tbl.CompositeWTop5 = repmat(w_comp.top5, height(summary_tbl), 1);
+summary_tbl.CompositeWSpearman = repmat(w_comp.spearman, height(summary_tbl), 1);
 
 for o = 1:numel(objectives)
     idx = strcmp(summary_tbl.Objective, objectives{o});
@@ -372,7 +377,7 @@ for o = 1:numel(objectives)
     top1_n = normalize01_hvac(part.MeanRegretTop1Pct);
     top5_n = normalize01_hvac(part.MeanRegretTop5Pct);
     sp_n = normalize01_hvac(part.MeanSpearman);
-    comp = 0.20 * top1_n + 0.50 * top5_n + 0.30 * (1 - sp_n);
+    comp = w_comp.top1 * top1_n + w_comp.top5 * top5_n + w_comp.spearman * (1 - sp_n);
 
     summary_tbl.CompositeScore(idx) = comp;
 
@@ -513,6 +518,24 @@ tbl = table( ...
     {'BaseSplitSingle'; 'BaseSplitMulti'; 'FairnessTop1Single'; 'FairnessTop1Multi'; 'FairnessCompositeSingle'; 'FairnessCompositeMulti'}, ...
     {base_single_best; base_multi_best; fair_single_best; fair_multi_best; fair_single_comp; fair_multi_comp}, ...
     'VariableNames', {'Evaluation', 'BestMethod'});
+end
+
+function w = get_composite_weights_hvac(cfg)
+w = struct('top1', 0.20, 'top5', 0.50, 'spearman', 0.30);
+if isfield(cfg, 'shap_composite_weights') && isstruct(cfg.shap_composite_weights)
+    c = cfg.shap_composite_weights;
+    if isfield(c, 'top1') && isfield(c, 'top5') && isfield(c, 'spearman')
+        vv = [c.top1, c.top5, c.spearman];
+        if all(isfinite(vv)) && all(vv >= 0)
+            s = sum(vv);
+            if s > eps
+                w.top1 = vv(1) / s;
+                w.top5 = vv(2) / s;
+                w.spearman = vv(3) / s;
+            end
+        end
+    end
+end
 end
 
 function v = valid_field_name_hvac(name)

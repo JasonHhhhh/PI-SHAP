@@ -1104,13 +1104,14 @@ fprintf(fid, '\n### PI-SHAP broad consistency\n\n');
 fprintf(fid, '- SHAP-only win/tie rate across single-objective targets + MO indicators: `%d/%d = %.1f%%`.\n', ...
     pi_cons.win_count, pi_cons.total_count, 100 * pi_cons.win_rate);
 fprintf(fid, '- Definition: PI-SHAP is counted as success when it is best or tied-best under each metric''s optimization direction.\n');
+fprintf(fid, '- This section is a SHAP-subset diagnostic (`Ori-SHAP`, `Cond-SHAP`, `PI-SHAP`) and is not a full-method leaderboard including optimization baselines.\n');
 fprintf(fid, '- This summary uses exactly the same open-source evaluation tables reported above (no method-specific post-hoc rule).\n');
 
 fprintf(fid, '\n### Suggested caption\n\n');
 fprintf(fid, 'Figure X compares SHAP-guided approximated frontiers across the same cost/supply weight settings used in the optimization run. The plot is in `[J_{cst}, J_{stg}]` space, where `J_{cst}` is minimized and `J_{stg}` is maximized. Light gray points show DOE samples and the black curve is the optimization Pareto frontier. For each SHAP method, light colored points denote the full candidate union over weight sweep, and the colored line with markers denotes its nondominated approximated frontier. Quantitative agreement is evaluated with HV (higher better), IGD (lower better), and additive epsilon (lower better).\n');
 
 fprintf(fid, '\n### Suggested discussion\n\n');
-fprintf(fid, 'Across the optimization-consistent weight sweep, PI-SHAP shows the strongest frontier consistency when judged jointly by distance-based and set-based indicators (IGD/epsilon/mean distance), while Ori-SHAP and Cond-SHAP exhibit larger off-front drift for some weights. This supports the reviewer-facing claim that PI-SHAP produces the most stable multi-objective guidance under the same weighting protocol used to generate the optimization Pareto set.\n');
+fprintf(fid, 'Across the optimization-consistent weight sweep, PI-SHAP obtains favorable values on several distance-based and set-based indicators (IGD/epsilon/mean distance) relative to other SHAP methods for this dataset and split protocol. This should be interpreted as criterion-specific evidence under the current evaluation setup, rather than a universal dominance claim.\n');
 
 fprintf(fid, '\n### Multi-objective scatter\n\n');
 fprintf(fid, '- PNG: `%s`\n', multi_png);
@@ -1382,11 +1383,7 @@ if ~isfinite(p)
     txt = 'n/a';
     return;
 end
-if p >= 0
-    txt = sprintf('+%.2f%% (PI-SHAP better)', p);
-else
-    txt = sprintf('%.2f%% (PI-SHAP worse)', p);
-end
+txt = sprintf('%+.2f%% relative gain under the selected metric direction', p);
 end
 
 function [score_cost_col, score_supp_col] = score_columns_reviewer_min(method_name)

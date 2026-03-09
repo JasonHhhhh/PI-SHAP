@@ -352,6 +352,8 @@ fprintf(fid, '- one-sample metrics: `Jcost=%.10g`, `Jsupp=%.10g`, `Jvar=%.10g`\n
     one_tbl.Jcost(1), one_tbl.Jsupp(1), one_tbl.Jvar(1));
 
 fprintf(fid, '## Delta-cap confirmation (1h)\n\n');
+fprintf(fid, '- CompositeScore in this section is a fixed engineering heuristic for stability/runtime trade-off (`0.45*step + 0.35*boundary_hit + 0.20*(1-trajectory_std)`).\n');
+fprintf(fid, '- It is used only to recommend a pilot delta-cap setting and should not be interpreted as a scientific performance metric for method superiority.\n\n');
 fprintf(fid, '| DeltaCapPerHour | SuccessRate | MeanSimSec | MeanMaxStep | P95MaxStep | MeanBoundaryHitRate | MeanTrajectoryStd | CompositeScore | Recommended |\n');
 fprintf(fid, '|---:|---:|---:|---:|---:|---:|---:|---:|---:|\n');
 for i = 1:height(summary_cap)

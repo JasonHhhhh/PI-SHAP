@@ -45,4 +45,6 @@ cfg.shap_fair_n_train = 1800;
 cfg.shap_fair_n_test = 320;
 cfg.shap_fair_mc_draws = 12;
 cfg.shap_fair_cond_k = 48;
+
+cfg.shap_composite_weights = struct('top1', 0.20, 'top5', 0.50, 'spearman', 0.30);
 end

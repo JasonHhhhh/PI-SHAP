@@ -54,6 +54,9 @@
 - Split seeds: `[11 23 37 53 71]`
 - Per split train/test: `1800 / 320`
 
+- Composite ranking uses pre-set weights (fixed before result inspection): top1=`0.20`, top5=`0.50`, spearman=`0.30`.
+- Composite ranking is criterion-specific and does not replace the Top1 ranking view.
+
 ### single objective
 
 - Top1-ranking winner: `Cond-SHAP`
@@ -72,6 +75,7 @@
 
 ## SHAP conclusions
 
+- Each line below is winner-under-criterion; these are not claimed as universal winners across all criteria.
 - `BaseSplitSingle`: `PI-SHAP`
 - `BaseSplitMulti`: `PI-SHAP`
 - `FairnessTop1Single`: `Cond-SHAP`

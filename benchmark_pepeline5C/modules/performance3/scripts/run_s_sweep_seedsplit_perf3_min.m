@@ -175,6 +175,7 @@ fprintf(fid, '- Test seeds: `%s`\n', mat2str(cfg.test_seed_list));
 fprintf(fid, '- dt(h): `%.1f`\n', cfg.eval_dt_hr);
 fprintf(fid, '- Label levels: `%s`\n', mat2str(cfg.label_class_levels));
 fprintf(fid, '- B fixed to rule-only: `rule_prior_blend = 1.0`\n\n');
+fprintf(fid, '- Scope note: this sweep summarizes SHAP-only consistency (`Ori-SHAP`, `Cond-SHAP`, `PI-SHAP`) for fixed-seed diagnostics, not full benchmark ranking against optimization baselines.\n\n');
 
 fprintf(fid, '## PI win/tie summary\n\n');
 fprintf(fid, '| S | PIWinTotal | PIWinRate | PIWinSingleJsupp | PIWinMOHV | PIWinMOIGD | PIWinMOEps |\n');
