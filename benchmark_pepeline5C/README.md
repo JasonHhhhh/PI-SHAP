@@ -9,6 +9,8 @@ This is the gas-network PI-SHAP benchmark package used for:
 
 For a concise equation-only formulation, see `FORMULATION.md`.
 
+Exact method/object references (including N/A items): `../REFERENCES.md`.
+
 ---
 
 ## 1) Mathematical model (compact)
@@ -98,3 +100,14 @@ $$
 ![Single objective metric](release/figures/perf3_top1/perf3_top1__fig1b_metric_jcost_s020_baseline.png)
 
 ![Multi-objective Pareto](release/figures/perf3_top1/perf3_top1__fig4_multi_pareto_s020_baseline.png)
+
+---
+
+## 7) Reference keys used for this case
+
+- Gas transient optimization object: [R7], [R8], [R9]
+- Ori-SHAP: [R1]
+- Cond-SHAP: [R2]
+- PI-SHAP / tr-opt / ss-opt family: repository-defined labels (N/A)
+
+All key definitions are listed in `../REFERENCES.md`.

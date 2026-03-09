@@ -33,6 +33,12 @@ Methods compared:
 - Cond-SHAP
 - PI-SHAP
 
+Reference mapping:
+
+- Ori-SHAP: [R1]
+- Cond-SHAP: [R2]
+- PI-SHAP: repository-defined label in this project (N/A external one-to-one paper)
+
 Given a surrogate model $f(\cdot)$ and candidate feature vector $x$:
 
 ### 2.1 Ori-SHAP perturbation
@@ -202,3 +208,9 @@ Interpretation:
   score-objective consistency across objectives.
 - Reporting both Top1 and Composite fairness views is important and more honest
   than a single metric narrative.
+
+---
+
+## 9) Reference keys used in this note
+
+- [R1], [R2] are defined in `../REFERENCES.md`.

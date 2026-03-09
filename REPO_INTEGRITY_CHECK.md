@@ -6,6 +6,7 @@ their runnable entry points, and reproducible outputs.
 ## 1) Top-level structure
 
 - [x] `README.md`
+- [x] `REFERENCES.md`
 - [x] `benchmark_pepeline5C/`
 - [x] `benchmark_hvac2zone_seqtree/`
 

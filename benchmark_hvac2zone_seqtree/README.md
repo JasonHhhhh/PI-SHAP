@@ -12,6 +12,8 @@ For a concise equation-only formulation, see `FORMULATION.md`.
 
 For SHAP appendix-style conclusions and fairness definitions, see `SHAP_RESULTS.md`.
 
+Exact method-to-reference mapping (including N/A items): `../REFERENCES.md`.
+
 ---
 
 ## 1) Mathematical definition
@@ -120,6 +122,12 @@ Methods compared under identical data split and granularity:
 - Cond-SHAP
 - PI-SHAP
 
+Reference notes:
+
+- Ori-SHAP aligned with SHAP foundation [R1]
+- Cond-SHAP aligned with conditional SHAP approximation [R2]
+- PI-SHAP is repository-defined (no external one-to-one paper entry in this repo)
+
 Reported metrics:
 
 - correlation with negative objective (Spearman/Pearson),
@@ -186,3 +194,9 @@ Figures:
 Auto summary:
 
 - `outputs/SUMMARY.md`
+
+---
+
+## 7) Reference keys used in this README
+
+- [R1], [R2] are defined in `../REFERENCES.md`.

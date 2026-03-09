@@ -19,6 +19,8 @@ and SHAP-based schedule ranking.
 
 Integrity checklist: `REPO_INTEGRITY_CHECK.md`
 
+Method/object references (exact mapping): `REFERENCES.md`
+
 ---
 
 ## System A: Gas Pipeline Case (`benchmark_pepeline5C`)
@@ -79,6 +81,8 @@ with weight sweep to generate Pareto candidates and evaluate front quality
 - Equation-only formulation: `benchmark_pepeline5C/FORMULATION.md`
 - Main reproduction guide: `benchmark_pepeline5C/reproduction_guidance.md`
 - Detailed case doc: `benchmark_pepeline5C/README.md`
+
+Reference mapping for methods in this case: `REFERENCES.md`
 - Curated single-objective tables:
   - `benchmark_pepeline5C/modules/performance3/curated/single_objective_cost/tables/`
 - Curated multi-objective tables:
@@ -181,6 +185,8 @@ Evaluation metrics:
 - Detailed case doc: `benchmark_hvac2zone_seqtree/README.md`
 - SHAP conclusions: `benchmark_hvac2zone_seqtree/SHAP_RESULTS.md`
 - Auto run summary: `benchmark_hvac2zone_seqtree/outputs/SUMMARY.md`
+
+Reference mapping for methods in this case: `REFERENCES.md`
 
 Example figures:
 

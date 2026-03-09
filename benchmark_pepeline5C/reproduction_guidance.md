@@ -13,6 +13,10 @@ The most important result files are:
 - `modules/performance3/curated/multi_objective_cost_var/tables/multi_branch_table_top1_s020_baseline.csv`
 - `modules/performance3/curated/multi_objective_cost_var/tables/multi_branch_table_summary.csv`
 
+Method/object reference mapping for this guide is listed in:
+
+- `../REFERENCES.md`
+
 ## 1.1 Mathematical objective expressions
 
 Single-objective branch:
